@@ -53,16 +53,20 @@ for res in json_data:
     if res["fullText"] and res["language"]:
         if res["language"]["code"] == "en":
             words = word_tokenize(res["fullText"])
-            articles[res["id"]] = [len(words), res["title"], res["fullText"]]
+            articles[res["id"]] = [len(words), res["title"], res["yearPublished"], res["fullText"]]
 sorted_articles = dict(sorted(articles.items(), key=lambda item: item[1][0]))
 
 ids = list(sorted_articles.keys())[:30]
+words_cnt = [val[0] for val in list(sorted_articles.values())[:30]]
 titles = [val[1] for val in list(sorted_articles.values())[:30]]
-texts = [clean_text(val[2]) for val in list(sorted_articles.values())[:30]]
+years = [val[2] for val in list(sorted_articles.values())[:30]]
+texts = [clean_text(val[3]) for val in list(sorted_articles.values())[:30]]
 
 df = pd.DataFrame({
     "id": ids,
+    "words_cnt": words_cnt,
     "title": titles,
+    "year": years,
     "text": texts
 })
 

@@ -30,5 +30,5 @@ query_builder.add_not_equals_filter("TEMPERATURE", -1e+10)
 query_builder.add_equals_filter("TEMPERATURE_QC", 0.0)
 query_builder.add_range_filter("DEPTH", 0, 10)
 
-df = query_builder.to_pandas_dataframe()
-df.to_parquet("data/wod.parquet")
+df = query_builder.to_pandas_dataframe().sort_values(by="TIME", ascending=False).iloc[0:1500,]
+df.to_csv("data/wod.csv")
